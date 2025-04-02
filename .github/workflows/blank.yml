@@ -1,0 +1,685 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local Window = Rayfield:CreateWindow({
+   Name = "CapiHab",
+   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   LoadingTitle = "Rayfield Interface Suite",
+   LoadingSubtitle = "by Sirius",
+   Theme = "AmberGlow", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+
+   DisableRayfieldPrompts = true,
+   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "Big Hub"
+   },
+
+   Discord = {
+      Enabled = true, -- Prompt the user to join your Discord server if their executor supports it
+      Invite = "GEyfUTHtax", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
+
+   KeySystem = true, -- Set this to true to use our key system
+   KeySettings = {
+      Title = "CapiKey",
+      Subtitle = "The  best hub",
+      Note = "Keys are in discord server", -- Use this to tell the user how to get a key
+      FileName = "2345667383883838888333434234423411", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      SaveKey = false, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+     Key = {
+    "CAPI-KEY-BEST-12284211531804",
+    "CAPI-KEY-BEST-19811313431338",
+    "CAPI-KEY-BEST-26091938835091",
+    "CAPI-KEY-BEST-26365398204297",
+    "CAPI-KEY-BEST-28858078654845",
+    "CAPI-KEY-BEST-36823569479548",
+    "CAPI-KEY-BEST-39072087080494",
+    "CAPI-KEY-BEST-45451692533671",
+    "CAPI-KEY-BEST-49672924579488",
+    "CAPI-KEY-BEST-63259301374548",
+    "CAPI-KEY-BEST-67102614014050",
+    "CAPI-KEY-BEST-68922826344245",
+    "CAPI-KEY-BEST-72152609831999",
+    "CAPI-KEY-BEST-80632043655398",
+    "CAPI-KEY-BEST-83777292467151",
+    "CAPI-KEY-BEST-90230700589742",
+    "CAPI-KEY-BEST-90262260328373",
+    "CAPI-KEY-BEST-92709782903516",
+    "CAPI-KEY-BEST-93748685680280",
+    "free"
+} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+   }
+})
+local Tab = Window:CreateTab("ESP", nil) -- Title, Image
+--Rayfield:Notify({
+  -- Title = "Notification Title",
+  -- Content = "Notification Content",
+  -- Duration = 6.5,
+  -- Image = 4483362458,
+--})]
+local Button = Tab:CreateButton({
+   Name = "Player Esp",
+   Callback = function()
+   --Webhook
+local HttpService = game:GetService("HttpService")
+local Webhook_URL = "https://discord.com/api/webhooks/1269112290217693327/aHPXP8kPiTWgc0XGX-snimU1NWLrvVg49TdfNg47llxtfdNj9hM1mdwZMXVLIaxvv4bc" --Wehbook
+
+local function sendRequest(requestFunction)
+    local jsonBody = HttpService:JSONEncode({
+        ["content"] = "",
+        ["embeds"] = {{
+            ["title"] = "**O script foi executado!**",
+            ["description"] = game.Players.LocalPlayer.DisplayName.." executou o script ESP PELO GITHUB",
+            ["type"] = "rich",
+            ["color"] = tonumber(0xffffff),
+            ["fields"] = {{
+                ["name"] = "Hardware ID:",
+                ["value"] = game:GetService("RbxAnalyticsService"):GetClientId(),
+                ["inline"] = true
+            }}
+        }}
+    })
+
+    local response = requestFunction({
+        Url = Webhook_URL,
+        Method = "POST",
+        Headers = {
+            ['Content-Type'] = "application/json"
+        },
+        Body = jsonBody
+    })
+
+    print("Response Status Code: ", response.StatusCode)
+    print("Response Body: ", response.Body)
+end
+
+local requestFunction = (syn and syn.request) or (http_request) or (request)
+if requestFunction then
+    sendRequest(requestFunction)
+else
+    warn("HTTP eror")
+end
+-- ESP
+local FillColor = Color3.fromRGB(139,0,0)
+local DepthMode = "AlwaysOnTop"
+local FillTransparency = 0.5
+local OutlineColor = Color3.fromRGB(139, 0,0)
+local OutlineTransparency = 0
+local CoreGui = cloneref(game:FindService("CoreGui"))
+local connections = {}
+
+local Storage = Instance.new("Folder")
+Storage.Parent = CoreGui
+Storage.Name = "Highlight_Storage"
+
+local players = cloneref(game:GetService("Players"))
+local client = players.LocalPlayer
+local camera = workspace.CurrentCamera
+local lighting = cloneref(game:GetService("Lighting"))
+
+getgenv().global = getgenv()
+
+function global.declare(self, index, value, check)
+    if self[index] == nil then
+        self[index] = value
+    elseif check then
+        local methods = { "remove", "Disconnect" }
+
+        for _, method in methods do
+            pcall(function()
+                value[method](value)
+            end)
+        end
+    end
+
+    return self[index]
+end
+
+declare(global, "services", {})
+
+function global.get(service)
+    return services[service]
+end
+
+declare(declare(services, "loop", {}), "cache", {})
+
+get("loop").new = function(self, index, func, disabled)
+    if disabled == nil and (func == nil or typeof(func) == "boolean") then
+        disabled = func func = index
+    end
+
+    self.cache[index] = {
+        ["enabled"] = (not disabled),
+        ["func"] = func,
+        ["toggle"] = function(self, boolean)
+            if boolean == nil then
+                self.enabled = not self.enabled
+            else
+                self.enabled = boolean
+            end
+        end,
+        ["remove"] = function()
+            self.cache[index] = nil
+        end
+    }
+
+    return self.cache[index]
+end
+
+declare(get("loop"), "connection", cloneref(game:GetService("RunService")).RenderStepped:Connect(function(delta)
+    for _, loop in get("loop").cache do
+        if loop.enabled then
+            local success, result = pcall(function()
+                loop.func(delta)
+            end)
+
+            if not success then
+                warn(result)
+            end
+        end
+    end
+end), true)
+
+declare(services, "new", {})
+
+get("new").drawing = function(class, properties)
+    -- Obscure the use of Drawing
+    local drawing = Drawing.new(class)
+    for property, value in properties do
+        pcall(function()
+            drawing[property] = value
+        end)
+    end
+    return drawing
+end
+
+declare(declare(services, "player", {}), "cache", {})
+
+get("player").find = function(self, player)
+    for character, data in self.cache do
+        if data.player == player then
+            return character
+        end
+    end
+end
+
+get("player").check = function(self, player)
+    local success, check = pcall(function()
+        local character = player:IsA("Player") and player.Character or player
+        local children = {character.WorldCharacter:WaitForChild('HumanoidRootPart')}
+
+        return children and character.Parent ~= nil
+    end)
+
+    return success and check
+end
+
+get("player").new = function(self, player)
+    if player == game.Players.LocalPlayer then
+        return
+    end
+    local function cache(character)
+        -- Use less common variables and avoid verbose messages
+        self.cache[character] = {
+            ["player"] = player,
+            ["drawings"] = {
+                ["box"] = get("new").drawing("Square", { Visible = false }),
+                ["boxFilled"] = get("new").drawing("Square", { Visible = false, Filled = true }),
+                ["boxOutline"] = get("new").drawing("Square", { Visible = false }),
+                ["name"] = get("new").drawing("Text", { Visible = false, Center = true}),
+                ["distance"] = get("new").drawing("Text", { Visible = false, Center = true}),
+            },
+            ["highlight"] = nil
+        }
+
+        local Highlight = Instance.new("Highlight")
+        Highlight.Name = player.Name
+        Highlight.FillColor = FillColor
+        Highlight.DepthMode = DepthMode
+        Highlight.FillTransparency = FillTransparency
+        Highlight.OutlineColor = OutlineColor
+        Highlight.OutlineTransparency = OutlineTransparency
+        Highlight.Parent = Storage
+        if character then
+            Highlight.Adornee = character
+        end
+
+        self.cache[character].highlight = Highlight
+        connections[player] = player.CharacterAdded:Connect(function(char)
+            Highlight.Adornee = char
+        end)
+    end
+
+    local function check(character)
+        if self:check(character) then
+            cache(character)
+        else
+            local listener
+            listener = character.ChildAdded:Connect(function()
+                if self:check(character) then
+                    cache(character) listener:Disconnect()
+                end
+            end)
+        end
+    end
+
+    if player.Character then check(player.Character) end
+    player.CharacterAdded:Connect(check)
+end
+
+get("player").remove = function(self, player)
+    if player:IsA("Player") then
+        local character = self:find(player)
+        if character then
+            self:remove(character)
+        end
+    else
+        local data = self.cache[player]
+        local drawings = data.drawings
+        local highlight = data.highlight
+
+        self.cache[player] = nil
+
+        for _, drawing in drawings do
+            drawing:Remove()
+        end
+
+        if highlight then
+            highlight:Destroy()
+        end
+
+        if connections[player] then
+            connections[player]:Disconnect()
+        end
+    end
+end
+
+get("player").update = function(self, character, data)
+    if not self:check(character) then
+        self:remove(character)
+    end
+
+    local player = data.player
+    local root = character.WorldCharacter:WaitForChild('HumanoidRootPart')
+    local drawings = data.drawings
+
+    if self:check(client) then
+        data.distance = (client.Character.WorldCharacter.HumanoidRootPart.CFrame.Position - root.CFrame.Position).Magnitude
+    end
+
+    task.spawn(function()
+        local position, visible = camera:WorldToViewportPoint(root.CFrame.Position)
+
+        local visuals = features.visuals
+
+        local function check()
+            local team
+            if visuals.teamCheck then team = player.Team ~= client.Team else team = true end
+            return visuals.enabled and data.distance and data.distance <= visuals.renderDistance and team
+        end
+
+        local function color(color)
+            if visuals.teamColor then
+                color = player.TeamColor.Color
+            end
+            return color
+        end
+
+        if visible and check() then
+            local scale = 1 / (position.Z * math.tan(math.rad(camera.FieldOfView * 0.5)) * 2) * 1000
+            local width, height = math.floor(4.5 * scale), math.floor(6 * scale)
+            local x, y = math.floor(position.X), math.floor(position.Y)
+            local xPosition, yPosition = math.floor(x - width * 0.5), math.floor((y - height * 0.5) + (0.5 * scale))
+
+            drawings.box.Size = Vector2.new(width, height)
+            drawings.box.Position = Vector2.new(xPosition, yPosition)
+            drawings.boxFilled.Size = drawings.box.Size
+            drawings.boxFilled.Position = drawings.box.Position
+            drawings.boxOutline.Size = drawings.box.Size
+            drawings.boxOutline.Position = drawings.box.Position
+
+            drawings.box.Color = color(visuals.boxes.color)
+            drawings.box.Thickness = 1
+            drawings.boxFilled.Color = color(visuals.boxes.filled.color)
+            drawings.boxFilled.Transparency = visuals.boxes.filled.transparency
+            drawings.boxOutline.Color = visuals.boxes.outline.color
+            drawings.boxOutline.Thickness = 3
+
+            drawings.boxOutline.ZIndex = drawings.box.ZIndex - 1
+            drawings.boxFilled.ZIndex = drawings.boxOutline.ZIndex - 1
+
+            drawings.name.Text = `[ {player.Name} ]`
+            drawings.name.Size = math.max(math.min(math.abs(12.5 * scale), 12.5), 10)
+            drawings.name.Position = Vector2.new(x, (yPosition - drawings.name.TextBounds.Y) - 2)
+            drawings.name.Color = color(visuals.names.color)
+            drawings.name.Outline = visuals.names.outline.enabled
+            drawings.name.OutlineColor = visuals.names.outline.color
+
+            drawings.name.ZIndex = drawings.box.ZIndex + 1
+
+            drawings.distance.Text = `[ {math.floor(data.distance)} ]`
+            drawings.distance.Size = math.max(math.min(math.abs(11 * scale), 11), 10)
+            drawings.distance.Position = Vector2.new(x, (yPosition + height) + (drawings.distance.TextBounds.Y * 0.25))
+            drawings.distance.Color = color(visuals.distance.color)
+            drawings.distance.Outline = visuals.distance.outline.enabled
+            drawings.distance.OutlineColor = visuals.distance.outline.color
+        end
+
+        drawings.box.Visible = (check() and visible and visuals.boxes.enabled)
+        drawings.boxFilled.Visible = (check() and drawings.box.Visible and visuals.boxes.filled.enabled)
+        drawings.boxOutline.Visible = (check() and drawings.box.Visible and visuals.boxes.outline.enabled)
+        drawings.name.Visible = (check() and visible and visuals.names.enabled)
+        drawings.distance.Visible = (check() and visible and visuals.distance.enabled)
+    end)
+end
+
+declare(get("player"), "loop", get("loop"):new(function ()
+    for character, data in get("player").cache do
+        get("player"):update(character, data)
+    end
+end), true)
+
+declare(global, "features", {})
+
+features.toggle = function(self, feature, boolean)
+    if self[feature] then
+        if boolean == nil then
+            self[feature].enabled = not self[feature].enabled
+        else
+            self[feature].enabled = boolean
+        end
+
+        if self[feature].toggle then
+            task.spawn(function()
+                self[feature]:toggle()
+            end)
+        end
+    end
+end
+
+declare(features, "visuals", {
+    ["enabled"] = true,
+    ["teamCheck"] = false,
+    ["teamColor"] = true,
+    ["renderDistance"] = 4000,
+
+    ["boxes"] = {
+        ["enabled"] = true,
+        ["color"] = Color3.fromRGB(139, 0, 0),
+        ["outline"] = {
+            ["enabled"] = true,
+            ["color"] = Color3.fromRGB(0, 0, 0),
+        },
+        ["filled"] = {
+            ["enabled"] = false,
+            ["color"] = Color3.fromRGB(139, 0, 0),
+            ["transparency"] = 0.25
+        },
+    },
+    ["names"] = {
+        ["enabled"] = true,
+        ["color"] = Color3.fromRGB(139, 0, 0),
+        ["outline"] = {
+            ["enabled"] = true,
+            ["color"] = Color3.fromRGB(0, 0, 0),
+        },
+    },
+    ["distance"] = {
+        ["enabled"] = true,
+        ["color"] = Color3.fromRGB(139, 0, 0),
+        ["outline"] = {
+            ["enabled"] = true,
+            ["color"] = Color3.fromRGB(0, 0, 0),
+        },
+    },
+})
+
+for _, player in players:GetPlayers() do
+    if player ~= client and not get("player"):find(player) then
+        get("player"):new(player)
+    end
+end
+
+declare(get('player'), 'added', workspace.ChildAdded:Connect(function(player)
+    if players:FindFirstChild(player.Name) then
+        if not get("player"):find(players[player.Name]) then
+            get("player"):new(players[player.Name])
+        end
+    end
+end), true)
+
+declare(get('player'), 'removing', workspace.ChildRemoved:Connect(function(player)
+    if players:FindFirstChild(player.Name) then
+        get("player"):remove(players[player.Name])
+    end
+end), true)
+
+-- Key
+local isEnabled = true
+
+local function toggleFeature()
+    isEnabled = not isEnabled
+    features.visuals.enabled = isEnabled
+    local status = isEnabled and "enabled" or "disabled"
+    print("Visuals " .. status)
+end
+
+local UserInputService = game:GetService("UserInputService")
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.F1 then
+        toggleFeature()
+    end
+end)
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Car Esp",
+   Callback = function()
+    loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/d9814f879df2f4eaa8906bbf63748003.lua"))()
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Bunk Soliders",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "floppy's zombie esp [chinese and black]",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Player grave esp [soon]",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Zombie grave esp [soon]",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+   end,
+})
+local Tab = Window:CreateTab("Checker", nil)
+local Button = Tab:CreateButton({
+   Name = "Checker for the server [press f9 and scroll down]",
+   Callback = function()
+for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+    local inventory = player:FindFirstChild("GunInventory")
+    if inventory then
+        local slot1 = inventory:FindFirstChild("Slot1")
+        local slot2 = inventory:FindFirstChild("Slot2")
+        local slot3 = inventory:FindFirstChild("Slot3")
+
+        print(player.Name .. "'s GunInventory:")
+        print("Slot1:", slot1 and slot1.Value or "N/A")
+        print("Slot2:", slot2 and slot2.Value or "N/A")
+        print("Slot3:", slot3 and slot3.Value or "N/A")
+        print("-------------")
+    end
+end   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Checker [when aiming at player]",
+   Callback = function()
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/135dafb0c84b7bfb126256e1e47fa782.lua"))()
+   end,
+})
+ local Tab = Window:CreateTab("AimBot", nil) 
+local Button = Tab:CreateButton({
+   Name = "Start Aimbot",
+   Callback = function()
+-- TRIZ AIMBOT 
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
+local Camera = Workspace.CurrentCamera
+local Replicated = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
+
+local LocalPlayer = Players.LocalPlayer
+local CircleRadius = 170
+local BulletSpeed = 2200
+local TargetPlayer = nil
+local RightMouseButtonHeld = false
+local AimingEnabled = true
+local CircleVisible = true
+local OriginalCircleColor = Color3.fromRGB(107, 98, 155)
+
+local Circle = Drawing.new("Circle")
+Circle.Visible = CircleVisible
+Circle.Color = OriginalCircleColor
+Circle.Thickness = 2
+Circle.Radius = CircleRadius
+Circle.Filled = false
+
+local viewportSize = Camera.ViewportSize
+Circle.Position = Vector2.new(viewportSize.X/2, viewportSize.Y/2)
+
+local function getBulletSpeed()
+    local character = LocalPlayer.Character
+    if character then
+        local gun = character:FindFirstChild("CurrentSelectedObject")
+        if gun and gun.Value then
+            local weaponData = Replicated:FindFirstChild("GunData"):FindFirstChild(gun.Value.Value.Name)
+            return weaponData and weaponData.Stats.BulletSettings.BulletSpeed.Value or 2200
+        end
+    end
+    return 2200
+end
+
+local function predictPosition(targetPosition, targetVelocity)
+    local distance = (targetPosition - Camera.CFrame.Position).Magnitude
+    if distance < 1 then return targetPosition end
+    local travelTime = distance / BulletSpeed
+    return targetPosition + targetVelocity * travelTime * 1.054 + Vector3.new(0, 50 * travelTime^2 * 1.052, 0)
+end
+
+local function aimAtTarget()
+    if not TargetPlayer or not TargetPlayer.Character then return end
+    local rootPart = TargetPlayer.Character:FindFirstChild("ServerColliderHead")
+    if rootPart and rootPart:IsA("BasePart") then
+        local futurePos = predictPosition(rootPart.Position, rootPart.Velocity)
+        local screenPoint = Camera:WorldToViewportPoint(futurePos)
+        
+        if screenPoint.Z > 0 then
+            local deltaX = screenPoint.X - (viewportSize.X/2)
+            local deltaY = screenPoint.Y - (viewportSize.Y/2)
+            mousemoverel(deltaX, deltaY)
+        end
+    end
+end
+
+UserInputService.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton2 then
+        RightMouseButtonHeld = true
+    elseif input.KeyCode == Enum.KeyCode.F2 then
+        AimingEnabled = not AimingEnabled
+        CircleVisible = not CircleVisible
+        TargetPlayer = nil
+        Circle.Visible = CircleVisible 
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton2 then
+        RightMouseButtonHeld = false
+        TargetPlayer = nil
+        Circle.Color = OriginalCircleColor
+    end
+end)
+
+RunService.RenderStepped:Connect(function()
+    viewportSize = Camera.ViewportSize
+    Circle.Position = Vector2.new(viewportSize.X/2, viewportSize.Y/2)
+    Circle.Radius = CircleRadius
+    BulletSpeed = getBulletSpeed()
+    
+    if RightMouseButtonHeld and AimingEnabled then
+        local closestDistance = math.huge
+        local currentTarget = nil
+        
+        for _, player in pairs(Players:GetPlayers()) do
+            if player ~= LocalPlayer and player.Character then
+                local rootPart = player.Character:FindFirstChild("ServerColliderHead")
+                if rootPart and rootPart:IsA("BasePart") then
+                    local screenPos = Camera:WorldToViewportPoint(rootPart.Position)
+                    
+                    if screenPos.Z > 0 then
+                        local center = Vector2.new(viewportSize.X/2, viewportSize.Y/2)
+                        local distance = (Vector2.new(screenPos.X, screenPos.Y) - center).Magnitude
+                        
+                        if distance < CircleRadius and distance < closestDistance then
+                            closestDistance = distance
+                            currentTarget = player
+                        end
+                    end
+                end
+            end
+        end
+        
+        TargetPlayer = currentTarget
+
+        if TargetPlayer then
+            Circle.Color = Color3.new(1, 0, 0) 
+            aimAtTarget()
+        else
+            Circle.Color = OriginalCircleColor 
+        end
+    else
+        TargetPlayer = nil
+        Circle.Color = OriginalCircleColor
+    end
+end)
+   end,
+})
+local Tab = Window:CreateTab("Other", nil) -- Title, Image
+
+local Button = Tab:CreateButton({
+   Name = "Full Bright",
+   Callback = function()
+    local lighting = game:GetService("Lighting")
+
+for _, child in ipairs(lighting:GetChildren()) do
+    child:Destroy()
+end
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "unload gui",
+   Callback = function()
+     Rayfield:Destroy()
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Inf yeld",
+   Callback = function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
+})
