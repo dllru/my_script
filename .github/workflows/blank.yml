@@ -404,7 +404,7 @@ declare(features, "visuals", {
     ["enabled"] = true,
     ["teamCheck"] = false,
     ["teamColor"] = true,
-    ["renderDistance"] = 4000,
+    ["renderDistance"] = 400000,
 
     ["boxes"] = {
         ["enabled"] = true,
@@ -506,9 +506,10 @@ local Button = Tab:CreateButton({
    -- The function that takes place when the button is pressed
    end,
 })
-local Tab = Window:CreateTab("Checker", nil)
+local Tab = Window:CreateTab("Misc", nil)
+
 local Button = Tab:CreateButton({
-   Name = "Checker for the server [press f9 and scroll down]",
+   Name = "Checker all  [F9 and scroll all the way down]",
    Callback = function()
 for _, player in pairs(game:GetService("Players"):GetPlayers()) do
     local inventory = player:FindFirstChild("GunInventory")
@@ -517,16 +518,16 @@ for _, player in pairs(game:GetService("Players"):GetPlayers()) do
         local slot2 = inventory:FindFirstChild("Slot2")
         local slot3 = inventory:FindFirstChild("Slot3")
 
-        print(player.Name .. "'s GunInventory:")
-        print("Slot1:", slot1 and slot1.Value or "N/A")
-        print("Slot2:", slot2 and slot2.Value or "N/A")
-        print("Slot3:", slot3 and slot3.Value or "N/A")
-        print("-------------")
+        print(player.Name .. "'s Inventory:")
+        print("Slot 1:", slot1 and slot1.Value or "nil")
+        print("Slot 2:", slot2 and slot2.Value or "nil")
+        print("Slot 3:", slot3 and slot3.Value or "nil")
+        print("|||||||||||||||")
     end
 end   end,
 })
 local Button = Tab:CreateButton({
-   Name = "Checker [when aiming at player]",
+   Name = "Checker [aim at player]",
    Callback = function()
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/135dafb0c84b7bfb126256e1e47fa782.lua"))()
    end,
@@ -544,7 +545,7 @@ local Replicated = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 
 local LocalPlayer = Players.LocalPlayer
-local CircleRadius = 500
+local CircleRadius = 210
 local BulletSpeed = 9999
 local TargetPlayer = nil
 local RightMouseButtonHeld = false
@@ -659,18 +660,7 @@ RunService.RenderStepped:Connect(function()
 end)
    end,
 })
-local Tab = Window:CreateTab("Other", nil) -- Title, Image
-
-local Button = Tab:CreateButton({
-   Name = "Full Bright",
-   Callback = function()
-    local lighting = game:GetService("Lighting")
-
-for _, child in ipairs(lighting:GetChildren()) do
-    child:Destroy()
-end
-   end,
-})
+local Tab = Window:CreateTab("Other", nil)
 local Button = Tab:CreateButton({
    Name = "unload gui",
    Callback = function()
