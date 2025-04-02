@@ -49,7 +49,7 @@ local Window = Rayfield:CreateWindow({
     "CAPI-KEY-BEST-90262260328373",
     "CAPI-KEY-BEST-92709782903516",
     "CAPI-KEY-BEST-93748685680280",
-    "free"
+    "130606"
 } -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
    }
 })
@@ -544,13 +544,13 @@ local Replicated = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 
 local LocalPlayer = Players.LocalPlayer
-local CircleRadius = 170
-local BulletSpeed = 2200
+local CircleRadius = 500
+local BulletSpeed = 9999
 local TargetPlayer = nil
 local RightMouseButtonHeld = false
 local AimingEnabled = true
 local CircleVisible = true
-local OriginalCircleColor = Color3.fromRGB(107, 98, 155)
+local OriginalCircleColor = Color3.fromRGB(1, 1, 1)
 
 local Circle = Drawing.new("Circle")
 Circle.Visible = CircleVisible
@@ -568,10 +568,10 @@ local function getBulletSpeed()
         local gun = character:FindFirstChild("CurrentSelectedObject")
         if gun and gun.Value then
             local weaponData = Replicated:FindFirstChild("GunData"):FindFirstChild(gun.Value.Value.Name)
-            return weaponData and weaponData.Stats.BulletSettings.BulletSpeed.Value or 2200
+            return weaponData and weaponData.Stats.BulletSettings.BulletSpeed.Value or 9999
         end
     end
-    return 2200
+    return 9999
 end
 
 local function predictPosition(targetPosition, targetVelocity)
