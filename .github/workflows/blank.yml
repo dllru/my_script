@@ -16,8 +16,8 @@ local Window = Rayfield:CreateWindow({
    },
 
    Discord = {
-      Enabled = true, -- Prompt the user to join your Discord server if their executor supports it
-      Invite = "GEyfUTHtax", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
+      Invite = "nil", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
       RememberJoins = true -- Set this to false to make them join the discord every time they load it up
    },
 
@@ -495,13 +495,13 @@ local Button = Tab:CreateButton({
    end,
 })
 local Button = Tab:CreateButton({
-   Name = "Player grave esp [soon]",
+   Name = "Player grave esp",
    Callback = function()
    -- The function that takes place when the button is pressed
    end,
 })
 local Button = Tab:CreateButton({
-   Name = "Zombie grave esp [soon]",
+   Name = "Zombie grave esp",
    Callback = function()
    -- The function that takes place when the button is pressed
    end,
@@ -530,6 +530,20 @@ local Button = Tab:CreateButton({
    Name = "Checker [aim at player]",
    Callback = function()
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/135dafb0c84b7bfb126256e1e47fa782.lua"))()
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "No leaves",
+   Callback = function()
+local function deleteLeaves()
+    for _, obj in pairs(game.Workspace:GetDescendants()) do
+        if obj:IsA("BasePart") and obj.Name:lower() == "leaves" then
+            obj:Destroy()
+        end
+    end
+end
+
+deleteLeaves()
    end,
 })
  local Tab = Window:CreateTab("AimBot", nil) 
