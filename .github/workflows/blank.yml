@@ -54,12 +54,6 @@ local Window = Rayfield:CreateWindow({
    }
 })
 local Tab = Window:CreateTab("ESP", nil) -- Title, Image
-Rayfield:Notify({
-   Title = "Notification Title",
-     Content = "Thank's for buying CapiHub",
-     Duration = 8,
-     Image = 4483362458,
-})]
 local Button = Tab:CreateButton({
    Name = "Player Esp",
    Callback = function()
