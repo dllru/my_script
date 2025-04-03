@@ -537,7 +537,7 @@ local Button = Tab:CreateButton({
    Name = "Xray",
    Callback = function()
 for _, obj in pairs(workspace:GetDescendants()) do
-    if obj:IsA("Part") and obj.Transparency > 0.001 then
+    if obj:IsA("MeshPart") and obj.Transparency > 0.001 then
         obj.Transparency ~= 0
     end
 end
