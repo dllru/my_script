@@ -534,11 +534,14 @@ loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/135dafb0c84b7b
 })
 local Button = Tab:CreateButton({
    Name = "Xray",
+   while true do
    Callback = function()
 for _, obj in pairs(workspace:GetDescendants()) do
-    if obj:IsA("Part") then
+    if obj:IsA("Part") and obj.Transparency > 0 then
         obj.Transparency = 0.5
+        wait(15)
     end
+end
 end
    end,
 })
@@ -556,28 +559,30 @@ end
 local Button = Tab:CreateButton({
    Name = "No leaves",
    Callback = function()
+   while true do
 local function deleteLeaves()
     for _, obj in pairs(game.Workspace:GetDescendants()) do
         if obj:IsA("BasePart") and obj.Name:lower() == "leaves" then
             obj:Destroy()
+            wait(15)
         end
     end
+end
 end
 
 deleteLeaves()
    end,
 })
 local Button = Tab:CreateButton({
-   Name = "Checker [aim at player]",
+   Name = "",
    Callback = function()
-loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/135dafb0c84b7bfb126256e1e47fa782.lua"))()
+
    end,
 })
  local Tab = Window:CreateTab("AimBot", nil) 
 local Button = Tab:CreateButton({
    Name = "Start Aimbot",
    Callback = function()
--- TRIZ AIMBOT 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
@@ -587,7 +592,7 @@ local UserInputService = game:GetService("UserInputService")
 
 local LocalPlayer = Players.LocalPlayer
 local CircleRadius = 210
-local BulletSpeed = 9999
+local BulletSpeed = 19999
 local TargetPlayer = nil
 local RightMouseButtonHeld = false
 local AimingEnabled = true
