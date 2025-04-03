@@ -23,11 +23,11 @@ local Window = Rayfield:CreateWindow({
 
    KeySystem = true, -- Set this to true to use our key system
    KeySettings = {
-      Title = "CapiKey",
+      Title = "CapiHub",
       Subtitle = "The  best hub",
       Note = "Keys are in discord server", -- Use this to tell the user how to get a key
       FileName = "2345667383883838888333434234423411", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
-      SaveKey = false, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
      Key = {
     "CAPI-KEY-BEST-12284211531804",
@@ -49,17 +49,17 @@ local Window = Rayfield:CreateWindow({
     "CAPI-KEY-BEST-90262260328373",
     "CAPI-KEY-BEST-92709782903516",
     "CAPI-KEY-BEST-93748685680280",
-    "130606"
+    "1"
 } -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
    }
 })
 local Tab = Window:CreateTab("ESP", nil) -- Title, Image
---Rayfield:Notify({
-  -- Title = "Notification Title",
-  -- Content = "Notification Content",
-  -- Duration = 6.5,
-  -- Image = 4483362458,
---})]
+Rayfield:Notify({
+   Title = "Notification Title",
+     Content = "Thank's for buying CapiHub",
+     Duration = 8,
+     Image = 4483362458,
+})]
 local Button = Tab:CreateButton({
    Name = "Player Esp",
    Callback = function()
@@ -503,7 +503,80 @@ local Button = Tab:CreateButton({
 local Button = Tab:CreateButton({
    Name = "Zombie grave esp",
    Callback = function()
+      -- Define the folder containing the parts
+local folder = game.Workspace
+
+if folder then
+    for _, part in ipairs(folder:GetChildren()) do
+        if part.Name == "ZombieGrave" then
+            -- Check if a BillboardGui already exists
+            if not part:FindFirstChildOfClass("BillboardGui") then
+                -- Create BillboardGui
+                local billboardGui = Instance.new("BillboardGui")
+                billboardGui.Size = UDim2.new(4, 0, 2, 0) -- Adjust size as needed
+                billboardGui.StudsOffset = Vector3.new(0, 2, 0) -- Position above the part
+                billboardGui.Adornee = part
+                billboardGui.Parent = part
+                billboardGui.AlwaysOnTop = true -- Ensures it appears in front of other UI elements
+
+                -- Create TextLabel
+                local textLabel = Instance.new("TextLabel")
+                textLabel.Size = UDim2.new(1, 0, 1, 0)
+                textLabel.BackgroundTransparency = 1
+                textLabel.Text = "Zombie Grave" -- Change to desired text
+                textLabel.TextScaled = true
+                textLabel.TextColor3 = Color3.new(1, 1, 1) -- White color
+                textLabel.Font = Enum.Font.SourceSansBold
+                textLabel.Parent = billboardGui
+            end
+        end
+    end
+else
+    warn("Folder not found! Make sure the folder name is correct.")
+end
+
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Smoke",
+   Callback = function()
    -- The function that takes place when the button is pressed
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Bear Trap Esp",
+   Callback = function()
+      -- Define the folder containing the parts
+local folder = game.Workspace
+
+if folder then
+    for _, part in ipairs(folder:GetChildren()) do
+        if part.Name == "Beartrap" then
+            -- Check if a BillboardGui already exists
+            if not part:FindFirstChildOfClass("BillboardGui") then
+                -- Create BillboardGui
+                local billboardGui = Instance.new("BillboardGui")
+                billboardGui.Size = UDim2.new(4, 0, 2, 0) -- Adjust size as needed
+                billboardGui.StudsOffset = Vector3.new(0, 2, 0) -- Position above the part
+                billboardGui.Adornee = part
+                billboardGui.Parent = part
+                billboardGui.AlwaysOnTop = true -- Ensures it appears in front of other UI elements
+
+                -- Create TextLabel
+                local textLabel = Instance.new("TextLabel")
+                textLabel.Size = UDim2.new(1, 0, 1, 0)
+                textLabel.BackgroundTransparency = 1
+                textLabel.Text = "Beartrap" -- Change to desired text
+                textLabel.TextScaled = true
+                textLabel.TextColor3 = Color3.new(1, 1, 1) -- White color
+                textLabel.Font = Enum.Font.SourceSansBold
+                textLabel.Parent = billboardGui
+            end
+        end
+    end
+else
+    warn("Folder not found! Make sure the folder name is correct.")
+end
    end,
 })
 local Tab = Window:CreateTab("Misc", nil)
@@ -537,8 +610,8 @@ local Button = Tab:CreateButton({
    Name = "Xray",
    Callback = function()
 for _, obj in pairs(workspace:GetDescendants()) do
-    if obj:IsA("Mesh") or obj:IsA("Part") obj:IsA("MeshPart") obj:IsA("TrussPart") obj:IsA("WedgePart") and obj.Transparency ~= 0 then
-        obj.Transparency = 0.5
+    if obj:IsA("Mesh") or obj:IsA("Part") or obj:IsA("MeshPart") or obj:IsA("TrussPart") or obj:IsA("WedgePart") and obj.Transparency > 0 then
+        obj.Transparency = 0.45
     end
 end
    end,
@@ -703,7 +776,7 @@ local Button = Tab:CreateButton({
    end,
 })
 local Button = Tab:CreateButton({
-   Name = "Inf yeld",
+   Name = "Inf yeld [banable]",
    Callback = function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
    end,
