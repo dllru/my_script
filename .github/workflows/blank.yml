@@ -533,6 +533,27 @@ loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/135dafb0c84b7b
    end,
 })
 local Button = Tab:CreateButton({
+   Name = "Xray",
+   Callback = function()
+for _, obj in pairs(workspace:GetDescendants()) do
+    if obj:IsA("Part") then
+        obj.Transparency = 0.5
+    end
+end
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "FullBright",
+   Callback = function()
+local lighting = game:GetService("Lighting")
+
+for _, child in ipairs(lighting:GetChildren()) do
+    child:Destroy()
+end
+
+   end,
+})
+local Button = Tab:CreateButton({
    Name = "No leaves",
    Callback = function()
 local function deleteLeaves()
@@ -544,6 +565,12 @@ local function deleteLeaves()
 end
 
 deleteLeaves()
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Checker [aim at player]",
+   Callback = function()
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/135dafb0c84b7bfb126256e1e47fa782.lua"))()
    end,
 })
  local Tab = Window:CreateTab("AimBot", nil) 
