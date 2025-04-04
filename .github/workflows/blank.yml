@@ -49,7 +49,7 @@ local Window = Rayfield:CreateWindow({
     "CAPI-KEY-BEST-90262260328373",
     "CAPI-KEY-BEST-92709782903516",
     "CAPI-KEY-BEST-93748685680280",
-    "1"
+    "123"
 } -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
    }
 })
