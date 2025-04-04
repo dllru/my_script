@@ -1046,8 +1046,6 @@ do
 	end
 
 	ContextActionService:BindActionAtPriority("FreecamToggle", HandleActivationInput, false, TOGGLE_INPUT_PRIORITY, FREECAM_MACRO_KB[#FREECAM_MACRO_KB])
-end
-      
    end,
 })
 
@@ -1077,11 +1075,11 @@ loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/135dafb0c84b7b
    end,
 })
 local Button = Tab:CreateButton({
-   Name = "Xray [kinda bad]",
+   Name = "Xray",
    Callback = function()
 for _, obj in pairs(workspace:GetDescendants()) do
-    if obj:IsA("Mesh") or obj:IsA("MeshPart") or obj:IsA("TrussPart") or obj:IsA("WedgePart") and obj.Transparency > 0 then
-        obj.Transparency = 0.4
+if (obj:IsA("Mesh") or obj:IsA("MeshPart") or obj:IsA("TrussPart") or obj:IsA("WedgePart")) and obj.Transparency > 0 then
+        obj.Transparency = 0.6
     end
 end
    end,
@@ -1124,7 +1122,7 @@ local UserInputService = game:GetService("UserInputService")
 
 local LocalPlayer = Players.LocalPlayer
 local CircleRadius = 300
-local BulletSpeed = BulletSpeed
+local BulletSpeed = 9999
 local TargetPlayer = nil
 local RightMouseButtonHeld = false
 local AimingEnabled = true
