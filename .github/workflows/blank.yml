@@ -1,3 +1,4 @@
+local FOVAIMBOT = 300
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
    Name = "CapiHab",
@@ -610,12 +611,6 @@ local Tab = Window:CreateTab("Misc", nil)
 local Button = Tab:CreateButton({
    Name = "FreeCam Shift+P",
    Callback = function()
-
-         ------------------------------------------------------------------------
--- Freecam
--- Cinematic free camera for spectating and video production.
-------------------------------------------------------------------------
-
 local pi    = math.pi
 local abs   = math.abs
 local clamp = math.clamp
@@ -645,9 +640,6 @@ Workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
 		Camera = newCamera
 	end
 end)
-
-------------------------------------------------------------------------
-
 local TOGGLE_INPUT_PRIORITY = Enum.ContextActionPriority.Low.Value
 local INPUT_PRIORITY = Enum.ContextActionPriority.High.Value
 local FREECAM_MACRO_KB = {Enum.KeyCode.LeftShift, Enum.KeyCode.P}
@@ -661,9 +653,6 @@ local PITCH_LIMIT = rad(90)
 local VEL_STIFFNESS = 1.5
 local PAN_STIFFNESS = 1.0
 local FOV_STIFFNESS = 4.0
-
-------------------------------------------------------------------------
-
 local Spring = {} do
 	Spring.__index = Spring
 
@@ -697,9 +686,6 @@ local Spring = {} do
 		self.v = pos*0
 	end
 end
-
-------------------------------------------------------------------------
-
 local cameraPos = Vector3.new()
 local cameraRot = Vector2.new()
 local cameraFov = 0
@@ -707,9 +693,6 @@ local cameraFov = 0
 local velSpring = Spring.new(VEL_STIFFNESS, Vector3.new())
 local panSpring = Spring.new(PAN_STIFFNESS, Vector2.new())
 local fovSpring = Spring.new(FOV_STIFFNESS, 0)
-
-------------------------------------------------------------------------
-
 local Input = {} do
 	local thumbstickCurve do
 		local K_CURVATURE = 2.0
@@ -931,9 +914,6 @@ local function StepFreecam(dt)
 	Camera.Focus = cameraCFrame*CFrame.new(0, 0, -GetFocusDistance(cameraCFrame))
 	Camera.FieldOfView = cameraFov
 end
-
-------------------------------------------------------------------------
-
 local PlayerState = {} do
 	local mouseBehavior
 	local mouseIconEnabled
@@ -952,8 +932,6 @@ local PlayerState = {} do
 		BadgesNotificationsActive = true,
 		PointsNotificationsActive = true,
 	}
-
-	-- Save state and set up for freecam
 	function PlayerState.Push()
 		for name in pairs(coreGuis) do
 			coreGuis[name] = StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType[name])
@@ -988,8 +966,6 @@ local PlayerState = {} do
 		mouseBehavior = UserInputService.MouseBehavior
 		UserInputService.MouseBehavior = Enum.MouseBehavior.Default
 	end
-
-	-- Restore state
 	function PlayerState.Pop()
 		for name, isEnabled in pairs(coreGuis) do
 			StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType[name], isEnabled)
@@ -1043,9 +1019,6 @@ local function StopFreecam()
 	RunService:UnbindFromRenderStep("Freecam")
 	PlayerState.Pop()
 end
-
-------------------------------------------------------------------------
-
 do
 	local enabled = false
 
@@ -1143,6 +1116,19 @@ deleteLeaves()
    end,
 })
  local Tab = Window:CreateTab("AimBot", nil) 
+ 
+local Slider = Tab:CreateSlider({
+   Name = "Aimbot Size",
+   Range = {50, 2000},
+   Increment = 10,
+   Suffix = "FOV",
+   CurrentValue = 300,
+   Flag = "FOVAIMFR", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+ 	FOVAIMBOT = FOVAIMFR
+   end,
+})
+
 local Button = Tab:CreateButton({
    Name = "Start Aimbot",
    Callback = function()
@@ -1154,7 +1140,7 @@ local Replicated = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 
 local LocalPlayer = Players.LocalPlayer
-local CircleRadius = 210
+local CircleRadius = FOVAIMBOT
 local BulletSpeed = BulletSpeed
 local TargetPlayer = nil
 local RightMouseButtonHeld = false
