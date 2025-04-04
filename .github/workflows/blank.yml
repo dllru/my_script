@@ -1112,19 +1112,6 @@ deleteLeaves()
    end,
 })
  local Tab = Window:CreateTab("AimBot", nil) 
- 
-local Slider = Tab:CreateSlider({
-   Name = "Aimbot Size [start aimbot first]",
-   Range = {50, 2000},
-   Increment = 10,
-   Suffix = "FOV",
-   CurrentValue = 300,
-   Flag = "FOVAIM", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-   Callback = function(Value)
---d
-   end,
-})
-
 local Button = Tab:CreateButton({
    Name = "Start Aimbot",
    Callback = function()
