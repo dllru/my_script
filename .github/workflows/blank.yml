@@ -1,4 +1,3 @@
-local FOVAIMBOT = 300
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
    Name = "CapiHab",
@@ -28,7 +27,7 @@ local Window = Rayfield:CreateWindow({
       Subtitle = "The  best hub",
       Note = "Keys are in discord server", -- Use this to tell the user how to get a key
       FileName = "2345667383883838888333434234423411", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
-      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      SaveKey = false, -- The user's key will be saved, but if you change the key, they will be unable to use your script
       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
      Key = {
     "CAPI-KEY-BEST-12284211531804",
@@ -893,9 +892,6 @@ local function GetFocusDistance(cameraFrame)
 
 	return fz:Dot(minVect)*minDist
 end
-
-------------------------------------------------------------------------
-
 local function StepFreecam(dt)
 	local vel = velSpring:Update(dt, Input.Vel(dt))
 	local pan = panSpring:Update(dt, Input.Pan(dt))
@@ -952,7 +948,7 @@ local PlayerState = {} do
 		end
 
 		cameraFieldOfView = Camera.FieldOfView
-		Camera.FieldOfView = 70
+		Camera.FieldOfView = 120
 
 		cameraType = Camera.CameraType
 		Camera.CameraType = Enum.CameraType.Custom
@@ -1118,14 +1114,14 @@ deleteLeaves()
  local Tab = Window:CreateTab("AimBot", nil) 
  
 local Slider = Tab:CreateSlider({
-   Name = "Aimbot Size",
+   Name = "Aimbot Size [start aimbot first]",
    Range = {50, 2000},
    Increment = 10,
    Suffix = "FOV",
    CurrentValue = 300,
-   Flag = "FOVAIMFR", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Flag = "FOVAIM", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
- 	FOVAIMBOT = FOVAIMFR
+ 	--g
    end,
 })
 
@@ -1140,7 +1136,7 @@ local Replicated = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 
 local LocalPlayer = Players.LocalPlayer
-local CircleRadius = FOVAIMBOT
+local CircleRadius = 300
 local BulletSpeed = BulletSpeed
 local TargetPlayer = nil
 local RightMouseButtonHeld = false
