@@ -1178,18 +1178,18 @@ local function getBulletSpeed()
         local gun = character:FindFirstChild("CurrentSelectedObject")
         if gun and gun.Value then
             local weaponData = Replicated:FindFirstChild("GunData"):FindFirstChild(gun.Value.Value.Name)
-            return weaponData and weaponData.Stats.BulletSettings.BulletSpeed.Value or 9999
+            return weaponData and weaponData.Stats.BulletSettings.BulletSpeed.Value or 99990
         end
     end
-    return 9999
+    return 99990
 end
 
-local function predictPosition(targetPosition, targetVelocity)
-    local distance = (targetPosition - Camera.CFrame.Position).Magnitude
-    if distance < 1 then return targetPosition end
-    local travelTime = distance / BulletSpeed
-    return targetPosition + targetVelocity * travelTime * 1.054 + Vector3.new(0, 50 * travelTime^2 * 1.052, 0)
-end
+--local function predictPosition(targetPosition, targetVelocity)
+--local distance = (targetPosition - Camera.CFrame.Position).Magnitude
+--if distance < 1 then return targetPosition end
+--local travelTime = distance / BulletSpeed
+--return targetPosition + targetVelocity * travelTime * 1.054 + Vector3.new(0, 50 * travelTime^2 * 1.052, 0)
+--end
 
 local function aimAtTarget()
     if not TargetPlayer or not TargetPlayer.Character then return end
