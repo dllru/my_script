@@ -1046,6 +1046,8 @@ do
 	end
 
 	ContextActionService:BindActionAtPriority("FreecamToggle", HandleActivationInput, false, TOGGLE_INPUT_PRIORITY, FREECAM_MACRO_KB[#FREECAM_MACRO_KB])
+end
+      
    end,
 })
 
@@ -1075,11 +1077,11 @@ loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/135dafb0c84b7b
    end,
 })
 local Button = Tab:CreateButton({
-   Name = "Xray",
+   Name = "Xray [kinda bad]",
    Callback = function()
 for _, obj in pairs(workspace:GetDescendants()) do
-if (obj:IsA("Mesh") or obj:IsA("MeshPart") or obj:IsA("TrussPart") or obj:IsA("WedgePart")) and obj.Transparency > 0 then
-        obj.Transparency = 0.6
+    if obj:IsA("Mesh") or obj:IsA("MeshPart") or obj:IsA("TrussPart") or obj:IsA("WedgePart") and obj.Transparency > 0 then
+        obj.Transparency = 0.4
     end
 end
    end,
@@ -1110,6 +1112,20 @@ deleteLeaves()
    end,
 })
  local Tab = Window:CreateTab("AimBot", nil) 
+ 
+local Slider = Tab:CreateSlider({
+   Name = "Aimbot Size [start aimbot first]",
+   Range = {50, 2000},
+   Increment = 10,
+   Suffix = "FOV",
+   CurrentValue = 300,
+   Flag = "FOVAIM", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   	local FOVAIM2 = FOVAIM : 2
+ 	game.CoreGui.Drawing.1.size = FOVAIM2
+   end,
+})
+
 local Button = Tab:CreateButton({
    Name = "Start Aimbot",
    Callback = function()
@@ -1122,7 +1138,7 @@ local UserInputService = game:GetService("UserInputService")
 
 local LocalPlayer = Players.LocalPlayer
 local CircleRadius = 300
-local BulletSpeed = 9999
+local BulletSpeed = BulletSpeed
 local TargetPlayer = nil
 local RightMouseButtonHeld = false
 local AimingEnabled = true
@@ -1247,5 +1263,7 @@ local Button = Tab:CreateButton({
    Name = "Inf yeld [banable]",
    Callback = function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
+})
    end,
 })
